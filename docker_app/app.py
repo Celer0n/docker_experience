@@ -4,7 +4,7 @@ import redis
 app = Flask(__name__)
 
 # Подключение к Redis (Redis находится на внутреннем хосте 'redis')
-r = redis.Redis(host='172.17.0.2', port=6379, decode_responses=True)
+r = redis.Redis(host='redis-server', port=6379, decode_responses=True)
 
 @app.route('/')
 def index():

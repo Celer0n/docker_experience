@@ -1,0 +1,17 @@
+services:
+  web_app:
+    build:
+      context: ./docker_experience/docker_app
+      dockerfile: Dockerfile
+    ports: 
+      - "5000:5000"
+      - "80:80"
+    volumes:
+      - .:/code
+    
+  web_back:
+    build:
+      context: ./docker_experience/docker_redis
+      dockerfile: Dockerfile
+    volumes:
+      - .:/code
