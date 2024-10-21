@@ -1,19 +1,21 @@
+import os
 from flask import Flask
 import redis
 
 app = Flask(__name__)
 
-# Подключение к Redis (Redis находится на внутреннем хосте 'redis')
-r = redis.Redis(host='redis-server', port=6379, decode_responses=True)
+# Получаем переменные окружения
+redis_host = os.getenv('REDIS_HOST', 'web_back')
+redis_port = os.getenv('REDIS_PORT', 6379)
+
+# Настраиваем подключение к Redis
+r = redis.Redis(host=redis_host, port=redis_port)
 
 @app.route('/')
-def index():
-    try:
-        r.set('foo', 'bar')
-        value = r.get('foo')
-        return f'Redis value: {value}'
-    except Exception as e:
-        return f'Error connecting to Redis: {str(e)}'
+def hello():
+    # Пример использования Redis
+    r.set('hello', 'world')
+    return f"Hello from Flask! Redis says: {r.get('hello').decode('utf-8')}"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)
